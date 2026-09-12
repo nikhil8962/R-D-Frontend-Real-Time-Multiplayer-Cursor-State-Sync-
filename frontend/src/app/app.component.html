@@ -1,0 +1,47 @@
+<div class="join-screen" *ngIf="!joined">
+  <div class="join-card">
+    <h1>Cursor Sync</h1>
+    <p>Enter a room code. Anyone who joins the same room sees your cursor move live, and you see theirs.</p>
+    <input
+      type="text"
+      [(ngModel)]="roomInput"
+      (keyup.enter)="join()"
+      placeholder="room code"
+      autocomplete="off"
+    />
+    <button (click)="join()">Join room</button>
+  </div>
+</div>
+
+<div class="board" *ngIf="joined" (mousemove)="onPointerMove($event)">
+  <div class="status-bar">
+    <span class="dot" [class.live]="connected"></span>
+    <span>{{ connected ? 'Connected' : 'Connecting…' }} — room "{{ roomInput }}"</span>
+    <span class="me" [style.color]="cursorService.color">● {{ cursorService.name }} (you)</span>
+  </div>
+
+    <div
+    *ngFor="let cursor of cursorList"
+    class="cursor"
+    [style.left.%]="cursor.x"
+    [style.top.%]="cursor.y"
+  >
+    <svg width="20" height="20" viewBox="0 0 20 20" [style.fill]="cursor.color">
+      <path d="M2 1 L18 9 L10 11 L7 18 Z" />
+    </svg>
+    <span class="label" [style.background]="cursor.color">{{ cursor.name }}</span>
+  </div>
+
+  <div
+    class="cursor self"
+    *ngIf="hasMoved"
+    [style.left.%]="myPos.x"
+    [style.top.%]="myPos.y"
+  >
+    <svg width="20" height="20" viewBox="0 0 20 20" [style.fill]="cursorService.color">
+      <path d="M2 1 L18 9 L10 11 L7 18 Z" />
+    </svg>
+    <span class="label" [style.background]="cursorService.color">{{ cursorService.name }} (you)</span>
+  </div>
+</div>
+
