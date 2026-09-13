@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 
 // Point this at your deployed backend when you go live, e.g.
 // 'https://your-backend.onrender.com/ws'
-export const BACKEND_WS_URL = 'http://localhost:8080/ws';
+export const BACKEND_WS_URL = 'https://r-d-frontend-real-time-multiplayer.onrender.com/ws';
 
 export interface CursorUpdate {
   userId: string;
